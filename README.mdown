@@ -1,0 +1,12 @@
+ScreenOS Utilties
+=================
+
+The ScreenOS Utilities are a in-development collection of simple tools that I use to manage our ScreenOS firewall.
+
+ScreenOS IP Blacklister
+-----------------------
+
+An interactive tool that takes IP addresses from the command-line (until a blank line is encountered) and generates the ScreenOS commands necessary to add the entered addresses to an Address Group. I use this group for Blacklisting abusive IPs.
+
+`$ screenos_ipbl.pl`
+
