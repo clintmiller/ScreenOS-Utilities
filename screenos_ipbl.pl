@@ -30,8 +30,8 @@ my $out = "";
 while (my ($ip, $dummy) = each %uniqIPs) {
 	$out .= "set addr $AddrZone BL($ip) $ip/32\n";
 	$out .= "set group addr $AddrZone $BlacklistGroup add BL($ip)\n";
-	$out .= "save\n";
 }
+$out .= "save\n";
 
 if (length($pbcopy) gt 0) {
 	system("echo '$out' | $pbcopy");
