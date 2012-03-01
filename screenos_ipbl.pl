@@ -2,6 +2,8 @@
 
 use strict;
 
+use Data::Validate::IP qw(is_ipv4);
+
 print "\n";
 print "****************************************\n";
 print "** Welcome to ScreenOS IP Blacklister **\n";
@@ -15,16 +17,19 @@ my %uniqIPs;
 
 sub gatherIP {
 	my $elems = scalar keys %uniqIPs;
-	printf("[%d] Please enter an IP to blacklist: ", $elems + 1);
+	printf("[%d] Please enter an IP to blacklist or ^D when done: ", $elems + 1);
 	chomp(my $ip = <>);
-	my $retval = length($ip);
-	if ($retval ne 0) {
-		$uniqIPs{$ip} = 1;
-	}
-	$retval;
+	return 0 if not defined $ip;
+	$uniqIPs{$ip} = 1 if is_ipv4($ip);
+	return 1;
 }
 
 while (&gatherIP) { }
+
+if (scalar keys %uniqIPs eq 0) {
+	print "\n\n";
+	exit 1;
+}
 
 my $out = "";
 while (my ($ip, $dummy) = each %uniqIPs) {
@@ -37,6 +42,6 @@ if (length($pbcopy) gt 0) {
 	system("echo '$out' | $pbcopy");
 }
 
-print "\n/** ScreenOS config **/\n\n";
+print "\n\n/** ScreenOS config **/\n\n";
 print $out;
 print "\n/**END ScreenOS config **/\n\n";
